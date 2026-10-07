@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🕵️ Игра в Шпиона</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Экран входа -->
+    <div id="screen-home" class="screen">
+      <h1>🕵️ Игра в Шпиона</h1>
+      <p class="subtitle">Кидай ссылку друзьям и играйте вместе</p>
+      
+      <div class="card">
+        <input type="text" id="player-name" placeholder="Твоё имя" maxlength="20" autocomplete="off">
+        
+        <button id="btn-create" class="btn primary">Создать комнату</button>
+        
+        <div class="divider">или</div>
+        
+        <input type="text" id="room-code" placeholder="Код комнаты" maxlength="5" autocomplete="off" style="text-transform:uppercase">
+        <button id="btn-join" class="btn">Войти в комнату</button>
+      </div>
+      
+      <p class="hint">Минимум 3 игрока · 8 минут на раунд</p>
+    </div>
+
+    <!-- Лобби -->
+    <div id="screen-lobby" class="screen hidden">
+      <h2>Комната: <span id="lobby-code"></span></h2>
+      <p class="share">Отправь друзьям код или ссылку:<br>
+        <a id="share-link" href="#" target="_blank"></a>
+      </p>
+      
+      <div class="card">
+        <h3>Игроки (<span id="player-count">0</span>)</h3>
+        <ul id="player-list"></ul>
+      </div>
+
+      <!-- Выбор темы (только для хоста) -->
+      <div id="theme-select" class="card hidden">
+        <h3>Тема игры</h3>
+        <div id="theme-buttons" class="theme-buttons"></div>
+      </div>
+        
+      <button id="btn-start" class="btn primary hidden">Начать игру</button>
+      <p id="waiting-host" class="hint">Ждём, пока хост начнёт игру...</p>
+    </div>
+
+    <!-- Игра -->
+    <div id="screen-game" class="screen hidden">
+      <div class="timer" id="timer">08:00</div>
+      
+      <div class="card role-card">
+        <div id="role-display"></div>
+      </div>
+      
+      <div class="card">
+        <h3>Игроки</h3>
+        <ul id="game-player-list"></ul>
+      </div>
+      
+      <div class="card">
+        <h3>Все возможные локации <span id="current-theme-name" style="color:#e94560;font-weight:normal"></span></h3>
+        <div id="locations-list" class="locations"></div>
+      </div>
+      
+      <button id="btn-end-round" class="btn danger hidden">Завершить раунд</button>
+    </div>
+
+    <!-- Конец раунда -->
+    <div id="screen-end" class="screen hidden">
+      <h2>Раунд окончен!</h2>
+      <div class="card">
+        <p>Локация была: <strong id="end-location"></strong></p>
+        <p>Шпион: <strong id="end-spy"></strong></p>
+      </div>
+      <button id="btn-new-round" class="btn primary hidden">Новый раунд</button>
+      <p id="waiting-new" class="hint">Ждём хоста...</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
